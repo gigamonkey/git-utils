@@ -18,10 +18,12 @@ git push -u origin main
 url=$(git config --get remote.origin.url)
 base="${url#*/}"
 repo="${base%.git}"
+base2="${url%/*}"
+org_or_user="${base2#*:}"
 
 echo "Please reset the default branch and remove any branch protection rules on master at:"
 echo ""
-echo "  https://github.com/democrats/${repo}/settings/branches"
+echo "  https://github.com/${org_or_user}/${repo}/settings/branches"
 echo ""
 
 read -p "Is the default branch on Github set correctly? " -r yesno
