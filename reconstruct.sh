@@ -11,7 +11,7 @@ git pull origin master
 # Rename master to main locally.
 git branch -m master main
 
-# Push main up to Github. This leaves master intact] on origin.
+# Push main up to Github. This leaves master intact on origin.
 git push -u origin main
 
 # Interactive bit. User needs to go reconfigure github.
