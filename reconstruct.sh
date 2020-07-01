@@ -40,6 +40,20 @@ fi
 # be main or might be something else like staging.
 git remote set-head origin --auto
 
+# Another interactive bit. Need to fix the base branch of any open PRs.
+echo "You should also change the base branch of any open PRs by clicking the"
+echo "Edit button on the PR like you were going to edit the subject line."
+echo "Then the master in 'wants to merge n commits into master from ...'"
+echo "will change to a drop down from which you can select main."
+echo ""
+echo "  https://github.com/${org_or_user}/${repo}/pulls"
+echo ""
+
+read -p "Have you fixed the base of all your PRs? " -r yesno
+if [[ $(echo "$yesno" | tr '[:upper:]' '[:lower:]') != "yes" ]]; then
+    exit 1
+fi
+
 # Delete the master branch from origin.
 git push origin --delete master
 
