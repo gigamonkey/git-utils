@@ -2,17 +2,24 @@
 
 set -euo pipefail
 
+if ! new_default=$(git config init.defaultBranch); then
+    echo "No init.defaultBranch set. Set it with:"
+    echo ""
+    echo "  git config --global init.defaultBranch <new default name>"
+    exit 1
+fi
+
 # Get on master
 git switch master
 
 # Make sure we're locally all up to date.
 git pull origin master
 
-# Rename master to main locally.
-git branch -m master main
+# Rename master to new default locally.
+git branch -m master "$new_default"
 
-# Push main up to Github. This leaves master intact on origin.
-git push -u origin main
+# Push new default up to Github. This leaves master intact on origin.
+git push -u origin "$new_default"
 
 # Interactive bit. User needs to go reconfigure github.
 url=$(git config --get remote.origin.url)
@@ -37,14 +44,14 @@ if [[ $(echo "$yesno" | tr '[:upper:]' '[:lower:]') != "yes" ]]; then
 fi
 
 # Make our default branch on origin the default from Github. Might now
-# be main or might be something else like staging.
+# be the new default or might be something else like staging.
 git remote set-head origin --auto
 
 # Another interactive bit. Need to fix the base branch of any open PRs.
 echo "You should also change the base branch of any open PRs by clicking the"
 echo "Edit button on the PR like you were going to edit the subject line."
 echo "Then the master in 'wants to merge n commits into master from ...'"
-echo "will change to a drop down from which you can select main."
+echo "will change to a drop down from which you can select $new_default."
 echo ""
 echo "  https://github.com/${org_or_user}/${repo}/pulls"
 echo ""
