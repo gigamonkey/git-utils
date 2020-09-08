@@ -57,9 +57,6 @@ fi
 # Delete the master branch from origin.
 git push origin --delete master
 
-# PRs may need to be rebased
-echo "If you have open PRs against master, you can change them to be based on main."
-
 # And some other things that may need to be changed
 echo "And you may need to adjust branch names in Travis and/or Jenkins."
 echo
